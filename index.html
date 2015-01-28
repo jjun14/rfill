@@ -77,15 +77,14 @@
     var current = blocks[x + y * 12];
     if(blocks[x + y * 12] < 5)
     {
-      if(blocks[(x + 1) +(y*12)] && blocks[(x+ 1) +(y*12)] == blocks[x + y * 12] && (x+y*12) % 11 != 0)
+      if(blocks[(x + 1) + (y * 12)] && blocks[(x + 1) +(y * 12)] == blocks[x + y * 12] && (x + 1 + y * 12) % 12 != 0)
       {
         blocks[x + y * 12] = 5;
         black(x+1,y);
-        console.log("hi");
       }
-      blocks[x +(y*12)] = current;
+      blocks[x + (y * 12)] = current;
 
-      if(blocks[(x - 1) +(y*12)] && blocks[(x - 1) +(y*12)] == blocks[x + y * 12] && (x+y*12) % 11 != 1)
+      if(blocks[(x - 1) +(y * 12)] && blocks[(x - 1) + (y * 12)] == blocks[x + y * 12] && (x - 1 + y * 12) % 12 != 11)
       {
         blocks[x + y * 12] = 5;
         black(x-1,y);
