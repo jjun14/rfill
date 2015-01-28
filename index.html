@@ -20,6 +20,9 @@
 	div.row div.yellow{
 		background-color: yellow;
 	}
+  div.row div.black{
+    background-color: black;
+  }
 	body{
 		padding:0px;
 		margin:0px;
@@ -33,17 +36,24 @@
 
 	<script type="text/javascript">
 	var blocks = [
-		0,0,0,1,0,1,2,2,2,0,0,0,
-		0,1,0,1,2,2,2,3,2,3,3,3,
-		0,1,0,1,2,1,2,3,2,3,1,3,
-		0,0,0,1,1,1,2,2,2,1,1,1,
+		4,4,4,1,4,1,2,2,2,4,4,4,
+		4,1,4,1,2,2,2,3,2,3,3,3,
+		4,1,4,1,2,1,2,3,2,3,1,3,
+		4,4,4,1,1,1,2,2,2,1,1,1,
 	];
 
+  // var blocks = [
+  // 3,3,3,3,
+  // 1,1,1,1,
+  // 2,2,2,2
+  // ];
+
 	var mapping = {
-		0: 'yellow',
-		1: 'red',
-		2: 'blue',
-		3: 'white'
+		1: 'yellow',
+		2: 'red',
+		3: 'blue',
+		4: 'white',
+    5: 'black'
 	}
 
 	function displayBlocks(){
@@ -62,6 +72,42 @@
 		document.getElementById('background').innerHTML = content;
 	}
 
+  function black(x,y)
+  {
+    var current = blocks[x + y * 12];
+    if(blocks[x + y * 12] < 5)
+    {
+      if(blocks[(x + 1) +(y*12)] && blocks[(x+ 1) +(y*12)] == blocks[x + y * 12] && (x+y*12) % 11 != 0)
+      {
+        blocks[x + y * 12] = 5;
+        black(x+1,y);
+        console.log("hi");
+      }
+      blocks[x +(y*12)] = current;
+
+      if(blocks[(x - 1) +(y*12)] && blocks[(x - 1) +(y*12)] == blocks[x + y * 12] && (x+y*12) % 11 != 1)
+      {
+        blocks[x + y * 12] = 5;
+        black(x-1,y);
+      }
+      blocks[x +(y*12)] = current;
+      if(blocks[x + (y + 1)*12] && blocks[x + (y + 1)*12] == blocks[x + y * 12])
+      {
+        blocks[x + y * 12] = 5;
+        black(x ,y + 1);
+        // blocks[ x +(y + 1)*12] = 4;
+      }
+      blocks[x +(y*12)] = current;      
+      if(blocks[x + (y - 1)*12] && blocks[x + (y - 1)*12] == blocks[x + y * 12])
+      {
+        blocks[x + y * 12] = 5;
+        black(x ,y - 1);
+        // blocks[ x +(y - 1)*12] = 4;
+      }
+    }
+    blocks[x + y * 12] = 5;
+  }
+
 	document.onclick = function(e){
 		var x = Math.floor(e.x/22);
 		var y = Math.floor(e.y/22);
@@ -69,6 +115,11 @@
 		console.log('(x,y) coord is', x,y);
 		console.log('the value in the block is ', blocks[y*12+x]);
 		console.log('the color is ', mapping[blocks[y*12+x]]);
+    if(y < 4 && x < 12)
+    {
+      black(x,y);
+      displayBlocks(); 
+    }
 	}
 
 	displayBlocks();
